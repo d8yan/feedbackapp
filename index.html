@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Feedback</title>
+    <!-- jquery-->
+    <script src="js/lib/jquery-2.1.4.js"></script>
+    <!--jquery mobile-->
+    <script src="js/lib/jquery.mobile-1.4.5.js"></script>
+    <!--jquery mobile stylesheet-->
+    <link rel="stylesheet" href="css/lib/jquery.mobile-1.4.5.css">
+    <!--jquery validation lib-->
+    <script src="js/lib/jquery.validate.js"></script>
+    <!--our scripts-->
+    <script src="js/dydatabase.js"></script>
+    <script src="js/dyfeedbackDAL.js"></script>
+    <script src="js/dyfacade.js"></script>
+    <script src="js/dyutil.js"></script>
+    <script src="js/dyglobal.js"></script>
+    <!--css style sheet-->
+    <link rel="stylesheet" type="text/css" href="css/dymystyle.css">
+</head>
+<body>
+<!--home page-->
+<div id="dyHomePage" data-role="page">
+    <header data-role="header" data-position="fixed" data-theme="b">
+        <h1>Feedback</h1>
+        <div data-role="navbar">
+            <ul>
+                <li><a id="dyHomePageHome" href="#dyHomePage" data-icon="home" data-theme="a"
+                       class="ui-btn-active ui-state-persist" style="font-weight: bold">Home</a></li>
+                <li><a id="dyHomePageAdd" href="#dyAddFeedbackPage" data-icon="plus" data-theme="a">Add</a></li>
+                <li><a id="dyHomePageReviews" href="#dyViewFeedbackPage" data-icon="grid" data-theme="a">Reviews</a></li>
+                <li><a id="dyHomePageSettings" href="#dySettingsPage" data-icon="gear" data-theme="a">Settings</a></li>
+            </ul>
+        </div>
+
+    </header>
+    <section data-role="content">
+        <h1>Dong Yan's Feedback A3 App</h1>
+        <p>Welcome to the Dong Yan's Feedback A3 app. A prototype designed for mobile programming
+            class. This is the first iteration of the app to keep track of different places you visited along
+            with your reviews.</p>
+
+        <div style="text-align: center">
+            <img src="img/dy-image.png" height="272" width="272" alt="contact us"/>
+        </div>
+        <p>Please feel free to contact me if you have any suggestions!</p>
+        <a id="dyPhone" href="tel:5197485220" data-role="button" data-icon="plus" data-iconpos="left">Call: 519.748.5220</a>
+        <a id="dyEmail" href="mailto: dyan-cc@conestogac.on.ca" data-role="button" data-icon="plus" data-iconpos="left">dyan-cc@conestogac.on.ca</a>
+        <p>Website:</p>
+        <a id="dySchool" href="https://www.conestogac.on.ca/" data-role="button" data-icon="plus" data-iconpos="left">Conestoga College</a>
+    </section>
+    <footer data-role="footer" data-position="fixed" data-theme="b">
+        <h1>&copy; 2021 Dong Yan</h1>
+    </footer>
+</div>
+
+<!--add feedback page-->
+<div id="dyAddFeedbackPage" data-role="page">
+    <header data-role="header" data-position="fixed" data-theme="b">
+        <h1>Add a Feedback</h1>
+        <div data-role="navbar">
+            <ul>
+                <li><a id="dyAddPageHome" href="#dyHomePage" data-icon="home" data-theme="a">Home</a></li>
+                <li><a id="dyAddPageAdd" href="#dyAddFeedbackPage" data-icon="plus" data-theme="a"
+                       class="ui-btn-active ui-state-persist">Add</a></li>
+                <li><a id="dyAddPageReviews" href="#dyViewFeedbackPage" data-icon="grid" data-theme="a">Reviews</a></li>
+                <li><a id="dyAddPageSettings" href="#dySettingsPage" data-icon="gear" data-theme="a">Settings</a></li>
+            </ul>
+        </div>
+
+    </header>
+    <section data-role="content">
+        <form id="dyAddForm" name="dyAddForm">
+            <label for="dyName">Business Name:</label>
+            <input type="text" id="dyName" name="dyName">
+            <label for="dyLocation">Type:</label>
+            <select id="dyLocation" name="dyLocation" data-native-menu="false">
+                <!--<option value="1">Other</option>
+                <option value="2">Asian</option>
+                <option value="3">Canadian</option>-->
+            </select>
+            <label for="dyFormEmail">Reviewer Email:</label>
+            <input type="text" id="dyFormEmail" name="dyFormEmail">
+            <label for="dyComments">Reviewer Comments:</label>
+            <textarea id="dyComments" name="dyComments"></textarea>
+            <label for="dyDate">Review Date:</label>
+            <input type="text" id="dyDate" name="dyDate" placeholder="mm/dd/yyyy">
+            <input type="checkbox" id="dyChkRating" name="dyChkRating" value="false"><label for="dyChkRating"><b>Do you want to add your ratings?</b></label>
+            <div id="dyRatingQuestions" name="dyRatingQuestions" hidden>
+                <label for="dyQuality">Food Quality (0-5):</label>
+                <input type="number" id="dyQuality" name="dyQuality" value="0">
+                <label for="dyService">Service (0-5):</label>
+                <input type="number" id="dyService" name="dyService" value="0">
+                <label for="dyValue">Value (0-5):</label>
+                <input type="number" id="dyValue" name="dyValue" value="0">
+                <label for="dyRating">Overall Rating (calculated):</label>
+                <input type="text" id="dyRating" name="dyRating" disabled="disabled" value="0">
+            </div>
+            <button type="button" data-role="button" data-inline="true" id="dySaveBtn" name="dySaveBtn"
+                    class="ui-btn-active">Save
+            </button>
+        </form>
+    </section>
+    <footer data-role="footer" data-position="fixed" data-theme="b">
+        <h1>&copy; 2021 Dong Yan</h1>
+    </footer>
+</div>
+<!--view Feedback page-->
+<div id="dyViewFeedbackPage" data-role="page" >
+    <header data-role="header" data-position="fixed" data-theme="b">
+        <h1>List of Reviews</h1>
+        <div data-role="navbar">
+            <ul>
+                <li><a id="dyFeedbackPageHome" href="#dyHomePage" data-icon="home" data-theme="a">Home</a></li>
+                <li><a id="dyFeedbackPageAdd" href="#dyAddFeedbackPage" data-icon="plus" data-theme="a">Add</a></li>
+                <li><a id="dyFeedbackPageReviews" href="#dyViewFeedbackPage" data-icon="grid" data-theme="a"
+                       class="ui-btn-active ui-state-persist">Reviews</a></li>
+                <li><a id="dyFeedbackPageSettings" href="#dySettingsPage" data-icon="gear" data-theme="a">Settings</a></li>
+            </ul>
+        </div>
+
+    </header>
+    <section data-role="content">
+        <ul id="dyFeedbackList" data-role="listview" data-inset="true" >
+           <!-- <li>
+                <a id="dyToEditPage" href="#dyEditFeedbackPage" data-role="button">
+                    <h1>Business Name: My Barber Shop</h1>
+                    <p>Reviewer Email: dy@google.com</p>
+                    <p>Comments: Good cutting skill</p>
+                    <p>Overall Rating: 90%</p>
+                </a>
+            </li>
+            <li>
+                <a id="dyEditPageLink" href="#dyEditFeedbackPage" data-role="button">
+                    <h1>Business Name: My Beer Shop</h1>
+                    <p>Reviewer Email: dy@google.com</p>
+                    <p>Comments: Weired taste</p>
+                    <p>Overall Rating: 20%</p>
+                </a>
+            </li>-->
+        </ul>
+    </section>
+    <footer data-role="footer" data-position="fixed" data-theme="b">
+        <h1>&copy; 2021 Dong Yan</h1>
+    </footer>
+</div>
+<!--edit page-->
+<div id="dyEditFeedbackPage" data-role="page">
+    <header data-role="header" data-position="fixed" data-theme="b">
+        <h1>Modify Feedback</h1>
+        <div data-role="navbar">
+            <ul>
+                <li><a id="dyModifyPageHome" href="#dyHomePage" data-icon="home" data-theme="a">Home</a></li>
+                <li><a id="dyModifyPageAdd" href="#dyAddFeedbackPage" data-icon="plus" data-theme="a">Add</a></li>
+                <li><a id="dyModifyPageReviews" href="#dyViewFeedbackPage" data-icon="grid" data-theme="a"
+                       class="ui-btn-active ui-state-persist">Reviews</a></li>
+                <li><a id="dyModifyPageSettings" href="#dySettingsPage" data-icon="gear" data-theme="a">Settings</a></li>
+            </ul>
+        </div>
+    </header>
+    <section data-role="content">
+        <form id="dyEditForm" name="dyEditForm">
+            <label for="dyEditName">Business Name:</label>
+            <input type="text" id="dyEditName" name="dyEditName">
+            <label for="dyEditLocation">Type:</label>
+            <select id="dyEditLocation" name="dyEditLocation" data-native-menu="false">
+               <!-- <option value="1">Other</option>
+                <option value="2">Asian</option>
+                <option value="3">Canadian</option>-->
+            </select>
+            <label for="dyEditEmail">Reviewer Email:</label>
+            <input type="text" id="dyEditEmail" name="dyEditEmail">
+            <label for="dyEditComments">Reviewer Comments:</label>
+            <textarea id="dyEditComments" name="dyEditComments"></textarea>
+            <label for="dyEditDate">Review Date:</label>
+            <input type="text" id="dyEditDate" name="dyEditDate" placeholder="mm/dd/yyyy">
+            <input type="checkbox" id="dyEditChkRating" name="dyEditChkRating" value="false"><label for="dyEditChkRating"><b>Do you want to add your ratings?</b></label>
+            <div id="dyEditRatingQuestions" name="dyEditRatingQuestions" hidden>
+                <label for="dyEditQuality">Food Quality (0-5):</label>
+                <input type="number" id="dyEditQuality" name="dyEditQuality" value="0">
+                <label for="dyEditService">Service (0-5):</label>
+                <input type="number" id="dyEditService" name="dyEditService" value="0">
+                <label for="dyEditValue">Value (0-5):</label>
+                <input type="number" id="dyEditValue" name="dyEditValue" value="0">
+                <label for="dyEditRating">Overall Rating (calculated):</label>
+                <input type="text" id="dyEditRating" name="dyEditRating" disabled="disabled" value="0">
+            </div>
+            <div data-role="controlgroup" data-type="horizontal">
+                <button type="button" id="dyCancelBtn" name="dyCancelBtn" data-role="button" style="background-color: #ffff00">Cancel</button>
+                <button type="button" id="dyDeleteBtn" name="dyDeleteBtn" data-role="button" data-theme="b">Delete</button>
+                <button type="button" id="dyUpdateBtn" name="dyUpdateBtn" data-role="button" class="ui-btn-active">Update</button>
+            </div>
+        </form>
+    </section>
+    <footer data-role="footer" data-position="fixed" data-theme="b">
+        <h1>&copy; 2021 Dong Yan</h1>
+    </footer>
+</div>
+
+<!--setting page-->
+<div id="dySettingsPage" data-role="page">
+    <header data-role="header" data-position="fixed" data-theme="b">
+        <h1>Settings</h1>
+        <div data-role="navbar">
+            <ul>
+                <li><a id="dySettingsPageHome" href="#dyHomePage" data-icon="home" data-theme="a">Home</a></li>
+                <li><a id="dySettingsPageAdd" href="#dyAddFeedbackPage" data-icon="plus" data-theme="a">Add</a></li>
+                <li><a id="dySettingsPageReviews" href="#dyViewFeedbackPage" data-icon="grid" data-theme="a">Reviews</a></li>
+                <li><a id="dySettingsPageSettings" href="#dySettingsPage" data-icon="gear" data-theme="a"
+                       class="ui-btn-active ui-state-persist">Settings</a></li>
+            </ul>
+        </div>
+
+    </header>
+    <section data-role="content">
+        <label for="dyDefaultEmail">Default reviewer Email:</label>
+        <input type="text" id="dyDefaultEmail" name="dyDefaultEmail" value="dyan4970@conestogac.on.ca">
+        <button type="button" data-role="button" id="dySaveDefault" name="dySaveDefault" class="ui-btn-active">Save Defaults</button>
+        <button type="button" data-role="button" id="dyClearDatabase" name="dyClearDatabase" data-theme="b">Clear Database</button>
+    </section>
+    <footer data-role="footer" data-position="fixed" data-theme="b">
+        <h1>&copy; 2021 Dong Yan</h1>
+    </footer>
+</div>
+</body>
+</html>
